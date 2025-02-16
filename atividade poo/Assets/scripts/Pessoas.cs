@@ -14,18 +14,48 @@ public class Pessoas : MonoBehaviour
     private bool fazerAcao = true;
     private GameObject alvo;
 
+    private GameManager gameManager;
+
+
+    void Awake()
+    {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+    }
+
     void Start()
     {
         vida = Random.Range(3, 10);
         gameObject.tag = pessoaTipo[Random.Range(0, pessoaTipo.Length)];
         gameObject.name = gameObject.tag;
+        switch (gameObject.tag)
+        {
+            case "Cidadao":
+                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                gameManager.quantCidadao++;
+                break;
+
+            case "Policial":
+                gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                gameManager.quantPolicial++;
+                break;
+
+            case "Ladrao":
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                gameManager.quantLadrao++;
+                break;
+        }
+
         StartCoroutine(Movimentar());
     }
 
     void Update()
     {
         if (gameObject.tag == "Cidadao")
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             TrabalharEMorrer();
+        }
+
 
         if (vida <= 0)
         {
@@ -105,7 +135,7 @@ public class Pessoas : MonoBehaviour
         fazerAcao = true;
     }
 
-    private void Deter()
+    private void DeterESumir()
     {
         if (!fazerAcao) return;
         fazerAcao = false;
@@ -122,7 +152,10 @@ public class Pessoas : MonoBehaviour
         }
 
         if (alvo != null)
+        {
             alvo.GetComponent<Pessoas>().vida--;
+            vida--;
+        }
         fazerAcao = true;
     }
     #endregion
@@ -138,7 +171,7 @@ public class Pessoas : MonoBehaviour
 
             case "Policial":
                 alvo = coll.gameObject;
-                Deter();
+                DeterESumir();
                 break;
         }
     }

@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class GeradorPessoas : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //Somente Instancia os objetos Prefabs para a cena
+    [SerializeField] GameObject pessoa;
     void Start()
     {
-        
+        Invoke("CriarPessoa", 1);
     }
 
-    // Update is called once per frame
-    void Update()
+    void CriarPessoa()
     {
-        
+        Instantiate(pessoa, new Vector2(Random.Range(-7, 7), Random.Range(-4, 4)), Quaternion.identity);
+        Invoke("CriarPessoa", 8);
     }
 }
