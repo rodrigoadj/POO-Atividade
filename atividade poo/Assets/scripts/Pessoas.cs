@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Pessoas : MonoBehaviour
 {
-    private string[] pessoaTipo = { "Cidadao", "Ladrao", "Policial" };
+    //A classe Pessoas é responsável por todo o comportamento das pessoas no jogo.
+    private string[] pessoaTipo = { "Cidadao", "Ladrao", "Policial" }; //Era para ser um enum (Um tipo de coleção) mas não deu certo.
     public string minhaPessoa;
 
     [SerializeField] int dinheiro;
@@ -19,14 +20,15 @@ public class Pessoas : MonoBehaviour
 
     void Awake()
     {
+        //Referência indireta do script gameManager para o script Pessoas.
         gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
     void Start()
     {
-        vida = Random.Range(3, 10);
-        gameObject.tag = pessoaTipo[Random.Range(0, pessoaTipo.Length)];
-        gameObject.name = gameObject.tag;
+
+        InicializarPessoas();
+
         switch (gameObject.tag)
         {
             case "Cidadao":
@@ -63,7 +65,14 @@ public class Pessoas : MonoBehaviour
         }
     }
 
-    IEnumerator Movimentar()
+    void InicializarPessoas() //Gera as pessoas com o tipo dela e sua vida aleatória.
+    {
+        vida = Random.Range(3, 10);
+        gameObject.tag = pessoaTipo[Random.Range(0, pessoaTipo.Length)];
+        gameObject.name = gameObject.tag;
+    }
+
+    IEnumerator Movimentar() //Movimenta as pessoas para posições aleatórias dps de um tempo.
     {
         while (true)
         {
@@ -78,18 +87,18 @@ public class Pessoas : MonoBehaviour
         }
     }
 
-    public int GetDinheiro()
+    public int GetDinheiro() //Retorna a variável encapsulada como privada responsável pelo dinheiro da pessoa.
     {
         return dinheiro;
     }
 
-    public float GetVida()
+    public float GetVida() //Retorna a variável encapsulada como privada responsável pela vida da pessoa.
     {
         return vida;
     }
 
     #region Ações dos personagens
-
+    // As ações foram pensadas para ter a mesma lógica facilitando a implementação.
     private void TrabalharEMorrer()
     {
         if (!fazerAcao) return;
@@ -108,7 +117,7 @@ public class Pessoas : MonoBehaviour
             yield return null;
         }
 
-        dinheiro += 1;
+        dinheiro++;
         vida--;
 
         fazerAcao = true;
@@ -130,8 +139,9 @@ public class Pessoas : MonoBehaviour
             yield return null;
         }
 
-        if (alvo != null)
+        if (alvo != null)   // Pegando o atributo com referência direta de outro objeto com o mesmo script.
             alvo.GetComponent<Pessoas>().dinheiro--;
+
         fazerAcao = true;
     }
 
@@ -156,13 +166,14 @@ public class Pessoas : MonoBehaviour
             alvo.GetComponent<Pessoas>().vida--;
             vida--;
         }
+
         fazerAcao = true;
     }
     #endregion
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        switch (gameObject.tag)
+        switch (gameObject.tag) // Ao colidir com alguma pessoa, retorna o objeto colidido como alvo para efetuar uma ação.
         {
             case "Ladrao":
                 alvo = coll.gameObject;
@@ -176,7 +187,7 @@ public class Pessoas : MonoBehaviour
         }
     }
 
-    void OnColisionExit2D(Collision2D coll)
+    void OnColisionExit2D(Collision2D coll) //Ao sair da colisão a variável alvo recebe null para evitar erro de referência.
     {
         alvo = null;
     }
