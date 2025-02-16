@@ -27,23 +27,7 @@ public class Pessoas : MonoBehaviour
 
         InicializarPessoas();
 
-        switch (gameObject.tag) //Adiciona +1 sempre que uma pessoa nova nasce.
-        {
-            case "Cidadao":
-                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-                gameManager.quantCidadao++;
-                break;
 
-            case "Policial":
-                gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
-                gameManager.quantPolicial++;
-                break;
-
-            case "Ladrao":
-                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                gameManager.quantLadrao++;
-                break;
-        }
 
         StartCoroutine(Movimentar());
     }
@@ -66,9 +50,29 @@ public class Pessoas : MonoBehaviour
 
     void InicializarPessoas() //Gera as pessoas com o tipo dela e sua vida aleatória.
     {
-        vida = Random.Range(3, 10);
         gameObject.tag = pessoaTipo[Random.Range(0, pessoaTipo.Length)];
         gameObject.name = gameObject.tag;
+
+        switch (gameObject.tag) //Adiciona +1 sempre que uma pessoa nova nasce.
+        {
+            case "Cidadao":
+                vida = Random.Range(3, 10);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+                gameManager.quantCidadao++;
+                break;
+
+            case "Policial":
+                vida = Random.Range(10, 15);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+                gameManager.quantPolicial++;
+                break;
+
+            case "Ladrao":
+                vida = Random.Range(3, 10);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                gameManager.quantLadrao++;
+                break;
+        }
     }
 
     IEnumerator Movimentar() //Movimenta as pessoas para posições aleatórias dps de um tempo.
@@ -167,7 +171,7 @@ public class Pessoas : MonoBehaviour
         if (alvo != null)
         {
             alvo.GetComponent<Pessoas>().vida--;
-            vida = 0;
+            vida--;
         }
 
         fazerAcao = true;
