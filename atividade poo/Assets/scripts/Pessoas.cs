@@ -117,6 +117,7 @@ public class Pessoas : MonoBehaviour
         }
 
         dinheiro += 2;
+        gameManager.dinheiroMovimentado += dinheiro;
         vida--;
 
         fazerAcao = true;
@@ -132,14 +133,17 @@ public class Pessoas : MonoBehaviour
     private IEnumerator EsperarRoubo()
     {
         delay = 0;
-        while (delay < 3)
+        while (delay < 0.5f)
         {
             delay += Time.deltaTime;
             yield return null;
         }
 
         if (alvo != null & alvo.GetComponent<Pessoas>().GetDinheiro() > 0)//Utilizando curto circuito para parar o if se alvo for nulo.   
+        {
             alvo.GetComponent<Pessoas>().dinheiro--; // Pegando o atributo com referência direta de outro objeto com o mesmo script.
+            gameManager.dinheiroRoubado++;
+        }
 
         fazerAcao = true;
     }
@@ -154,7 +158,7 @@ public class Pessoas : MonoBehaviour
     private IEnumerator EsperarDetencao()
     {
         delay = 0;
-        while (delay < 2)
+        while (delay < 0.5f)
         {
             delay += Time.deltaTime;
             yield return null;
@@ -163,7 +167,7 @@ public class Pessoas : MonoBehaviour
         if (alvo != null)
         {
             alvo.GetComponent<Pessoas>().vida--;
-            vida--;
+            vida = 0;
         }
 
         fazerAcao = true;

@@ -7,9 +7,16 @@ public class GameManager : MonoBehaviour
     public int quantPolicial;
     public int quantCidadao;
     public int quantLadrao;
+
+    public int dinheiroMovimentado;
+    public int dinheiroRoubado;
+
     public TMP_Text txt_Policial;
     public TMP_Text txt_Ladrao;
     public TMP_Text txt_Cidadao;
+
+    public TMP_Text txt_dinheiroMovimentado;
+    public TMP_Text txt_dinheiroRoubado;
 
     //Variáveis para ver as informações de cada indivíduo no Canvas.
     private GameObject painel_Individuo;
@@ -42,6 +49,9 @@ public class GameManager : MonoBehaviour
         txt_Cidadao.text = "Cidadao: " + quantCidadao.ToString();
         txt_Ladrao.text = "Ladrao: " + quantLadrao.ToString();
         txt_Policial.text = "Policial: " + quantPolicial.ToString();
+
+        txt_dinheiroMovimentado.text = "Dinheiro Movimentado: " + dinheiroMovimentado.ToString();
+        txt_dinheiroRoubado.text = "Dinheiro Roubado: " + dinheiroRoubado.ToString();
     }
 
     void MostrarInfoPessoa() //Mostra numa tela que se ativa, as informações de cada pessoa específica.
