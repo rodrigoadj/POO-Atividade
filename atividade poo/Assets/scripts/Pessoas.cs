@@ -5,7 +5,6 @@ public class Pessoas : MonoBehaviour
 {
     //A classe Pessoas é responsável por todo o comportamento das pessoas no jogo.
     private string[] pessoaTipo = { "Cidadao", "Ladrao", "Policial" }; //Era para ser um enum (Um tipo de coleção) mas não deu certo.
-    public string minhaPessoa;
 
     [SerializeField] int dinheiro;
     [SerializeField] float vida;
@@ -28,7 +27,7 @@ public class Pessoas : MonoBehaviour
 
         InicializarPessoas();
 
-        switch (gameObject.tag)
+        switch (gameObject.tag) //Adiciona +1 sempre que uma pessoa nova nasce.
         {
             case "Cidadao":
                 gameObject.GetComponent<SpriteRenderer>().color = Color.green;
@@ -61,6 +60,7 @@ public class Pessoas : MonoBehaviour
         if (vida <= 0)
         {
             Destroy(this.gameObject);
+            gameManager.GetPainel().SetActive(false);
         }
     }
 
@@ -116,7 +116,7 @@ public class Pessoas : MonoBehaviour
             yield return null;
         }
 
-        dinheiro++;
+        dinheiro += 2;
         vida--;
 
         fazerAcao = true;
@@ -138,8 +138,8 @@ public class Pessoas : MonoBehaviour
             yield return null;
         }
 
-        if (alvo != null)   // Pegando o atributo com referência direta de outro objeto com o mesmo script.
-            alvo.GetComponent<Pessoas>().dinheiro--;
+        if (alvo != null & alvo.GetComponent<Pessoas>().GetDinheiro() > 0)//Utilizando curto circuito para parar o if se alvo for nulo.   
+            alvo.GetComponent<Pessoas>().dinheiro--; // Pegando o atributo com referência direta de outro objeto com o mesmo script.
 
         fazerAcao = true;
     }
@@ -176,12 +176,14 @@ public class Pessoas : MonoBehaviour
         {
             case "Ladrao":
                 alvo = coll.gameObject;
-                Roubar();
+                if (alvo.tag == "Cidadao")
+                    Roubar();
                 break;
 
             case "Policial":
                 alvo = coll.gameObject;
-                DeterESumir();
+                if (alvo.tag == "Ladrao")
+                    DeterESumir();
                 break;
         }
     }

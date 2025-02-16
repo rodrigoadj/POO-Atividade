@@ -67,4 +67,9 @@ public class GameManager : MonoBehaviour
                 painel_Individuo.SetActive(true);
         }
     }
+
+    public GameObject GetPainel() // Retorna o painel do indivíduio.
+    {
+        return painel_Individuo;
+    }
 }
