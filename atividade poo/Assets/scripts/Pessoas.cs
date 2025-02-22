@@ -62,7 +62,7 @@ public class Pessoas : MonoBehaviour
                 break;
 
             case "Policial":
-                vida = Random.Range(10, 15);
+                vida = Random.Range(5, 10);
                 gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
                 gameManager.quantPolicial++;
                 break;

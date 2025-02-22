@@ -7,6 +7,7 @@ TagManager:
   - Cidadao
   - Ladrao
   - Policial
+  - UI
   layers:
   - Default
   - TransparentFX

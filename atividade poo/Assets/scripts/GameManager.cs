@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         //Referência indireta do objeto com o nome "Canvas" para pegar seu segundo  objeto filho.
-        painel_Individuo = GameObject.Find("Canvas").transform.GetChild(1).gameObject;
+        painel_Individuo = GameObject.FindWithTag("UI").transform.GetChild(1).gameObject;
     }
 
     void Update()
